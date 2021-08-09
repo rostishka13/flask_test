@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
@@ -12,6 +12,16 @@ app.config["FLASK_ADMIN_SWATHC"] = "cerulean"
 db = SQLAlchemy(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SECRET_KEY"] = "thisismykey"
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
 
 
 class Category(db.Model):
