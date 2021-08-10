@@ -119,7 +119,8 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(50), nullable=False)
-    product = db.relationship("Product", backref="category", lazy=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"))
+    # product = db.relationship("Product", backref="category", lazy=True)
 
     def __repr__(self):
         return f"{self.category_name}"
@@ -131,7 +132,8 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     color = db.Column(db.String(10))
     weigth = db.Column(db.Integer)
-    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
+    # category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
+    category = db.relationship("Category")
 
     def __repr__(self):
         return f"product {self.title}"
