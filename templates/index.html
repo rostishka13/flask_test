@@ -1,9 +1,6 @@
-{%extends 'base.html'%}
+{%extends 'base.html'%} {% block title %} Main page {% endblock title %} {%block
+content %}
 
-{% block title %} Main page {% endblock title %}
-
-{% block content %}
 <h1>Admin Authentication Flask</h1>
-<a href="{{url_for('login')}}">login</a>
-<a href="{{url_for('register')}}">register</a>
+
 {% endblock content%}
