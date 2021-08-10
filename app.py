@@ -1,9 +1,12 @@
 from flask import Flask, render_template
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, LoginManager, current_user
 
 app = Flask(__name__)
+login = LoginManager(app)
+
 
 app.config["FLASK_ADMIN_SWATHC"] = "cerulean"
 
@@ -11,6 +14,11 @@ app.config["FLASK_ADMIN_SWATHC"] = "cerulean"
 db = SQLAlchemy(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SECRET_KEY"] = "thisismykey"
+
+
+@login.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 @app.route("/")
@@ -43,7 +51,14 @@ class Product(db.Model):
         return f"product {self.title}"
 
 
-admin = Admin(app, name="Rozetka Test", template_mode="bootstrap3")
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+admin = Admin(
+    app, name="Rozetka Test", template_mode="bootstrap3", index_view=MyAdminIndexView()
+)
 admin.add_view(ModelView(Product, db.session))
 admin.add_view(ModelView(Category, db.session))
 
