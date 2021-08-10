@@ -161,7 +161,7 @@ class MyAdminIndexView(AdminIndexView):
 
 
 class ProductView(ModelView):
-    column_list = ("title", "price", "color", "weigth", "category")
+    column_list = ("title", "price", "color", "weigth", "category", "shipped_address")
     column_searchable_list = ["title"]
 
 
