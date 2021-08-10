@@ -16,12 +16,9 @@ from flask_login import (
     current_user,
 )
 
-from flask_bootstrap import Bootstrap
-
 
 # config
 app = Flask(__name__)
-Bootstrap(app)
 bcrypt = Bcrypt(app)
 login = LoginManager(app)
 db = SQLAlchemy(app)
