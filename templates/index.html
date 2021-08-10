@@ -2,5 +2,6 @@
 content %}
 
 <h1>Admin Authentication Flask</h1>
-
-{% endblock content%}
+{% if current_user.is_authenticated %}
+<a href="{{url_for('admin.index')}}">Go to admin panel </a>
+{%endif%} {% endblock content%}

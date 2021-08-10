@@ -126,6 +126,17 @@ class Category(db.Model):
         return f"{self.category_name}"
 
 
+class Shipped_address(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    street = db.Column(db.String(50), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"))
+
+    def __repr__(self):
+        return f" {self.country}, {self.city}, {self.street}"
+
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
@@ -134,6 +145,7 @@ class Product(db.Model):
     weigth = db.Column(db.Integer)
     # category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
     category = db.relationship("Category")
+    shipped_address = db.relationship("Shipped_address")
 
     def __repr__(self):
         return f"product {self.title}"
@@ -159,6 +171,7 @@ admin = Admin(
 
 admin.add_view(ProductView(Product, db.session))
 admin.add_view(ModelView(Category, db.session))
+admin.add_view(ModelView(Shipped_address, db.session))
 
 if __name__ == "__main__":
     app.run(debug=True)
