@@ -148,10 +148,16 @@ class MyAdminIndexView(AdminIndexView):
         return redirect(url_for("index"))
 
 
+class ProductView(ModelView):
+    column_list = ("title", "price", "color", "weigth", "category")
+    column_searchable_list = ["title"]
+
+
 admin = Admin(
     app, name="Rozetka Test", template_mode="bootstrap3", index_view=MyAdminIndexView()
 )
-admin.add_view(ModelView(Product, db.session))
+
+admin.add_view(ProductView(Product, db.session))
 admin.add_view(ModelView(Category, db.session))
 
 if __name__ == "__main__":
